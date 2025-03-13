@@ -10,7 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final _controller = TextEditingController();
   List toDoList = [
     ["Task 1", true],
@@ -44,6 +43,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void deleteTask(index) {
+    setState(() {
+      toDoList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,9 +66,7 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
         backgroundColor: Colors.deepOrange[700],
         foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50)
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
       ),
       body: ListView.builder(
         itemCount: toDoList.length,
@@ -72,6 +75,7 @@ class _HomePageState extends State<HomePage> {
             taskName: toDoList[index][0],
             taskCompleted: toDoList[index][1],
             onChanged: (value) => checkBoxChanged(value, index),
+            deleteFunction: (context) => deleteTask(index),
           );
         },
       ),
