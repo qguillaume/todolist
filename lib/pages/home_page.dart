@@ -49,6 +49,65 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void editTask(int index) {
+    TextEditingController editController = TextEditingController();
+    editController.text =
+        toDoList[index][0]; // Pré-remplit avec la tâche actuelle
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Modifier la tâche"),
+          content: TextField(
+            controller: editController,
+            decoration: const InputDecoration(border: OutlineInputBorder()),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Annuler"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  toDoList[index][0] =
+                      editController.text; // Met à jour la tâche
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text("Enregistrer"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showTaskDetails(int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Détails de la tâche"),
+          content: Text(
+            "Nom de la tâche : ${toDoList[index][0]}\n"
+            "Statut : ${toDoList[index][1] ? "Terminée" : "En cours"}",
+            style: const TextStyle(fontSize: 16),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Fermer"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +135,8 @@ class _HomePageState extends State<HomePage> {
             taskCompleted: toDoList[index][1],
             onChanged: (value) => checkBoxChanged(value, index),
             deleteFunction: (context) => deleteTask(index),
+            editFunction: (context) => editTask(index),
+            detailsFunction: (context) => showTaskDetails(index),
           );
         },
       ),
