@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:todolist/pages/home_page.dart';
+import 'package:get/get.dart';
+import 'todos/todo_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Colors.deepOrange[700], // La couleur principale de l’app
-      ),
-      home: HomePage(),
+    return GetMaterialApp(
+      title: 'ToDo App',
+      home: TodoPage(), // Appelle directement la TodoPage
     );
   }
 }
